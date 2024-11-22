@@ -34,3 +34,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+# Reasons why this project will remain incomplete:
+
+To fully deploy this application, I would have to deploy my database to the cloud, as thus far we've been running a local MySQL instance.
+
+This is way more than necessary for the requirements of Phase 4 of this project, therefore I am skipping it.
