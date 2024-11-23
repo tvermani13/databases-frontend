@@ -1,19 +1,12 @@
 import mysql from 'mysql2/promise';
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
 
-
-(async () => {
-    try {
-      const connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-      });
-      console.log('Connected to the database!');
-      await connection.end();
-    } catch (err) {
-      console.error('Database connection failed:', err.message);
-    }
-  })();
+const db = mysql.createPool({
+  host: serverRuntimeConfig.DB_HOST,
+  user: serverRuntimeConfig.DB_USER,
+  password: serverRuntimeConfig.DB_PASSWORD,
+  database: serverRuntimeConfig.DB_NAME
+});
 
 export default db;

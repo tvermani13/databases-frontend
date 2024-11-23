@@ -8,6 +8,7 @@ const db = mysql.createPool({
   password: serverRuntimeConfig.DB_PASSWORD,
   database: serverRuntimeConfig.DB_NAME,
 });
+
 const allowedViews = [
   'display_service_view',
   'display_product_view',
