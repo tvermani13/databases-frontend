@@ -8,7 +8,6 @@ const db = mysql.createPool({
   password: serverRuntimeConfig.DB_PASSWORD,
   database: serverRuntimeConfig.DB_NAME,
 });
-
 const allowedViews = [
   'display_service_view',
   'display_product_view',
@@ -21,6 +20,10 @@ const allowedViews = [
 export async function GET(req, { params }) {
   try {
     const { viewName } = params;
+    // const viewName = req.nextUrl.pathname.split("/")[3]; // Dynamically extract the value of `viewName`
+
+    // const { searchParams } = new URL(req.url);
+    // const viewName = searchParams.get('viewName');
 
     if (!allowedViews.includes(viewName)) {
       return new Response(JSON.stringify({ error: 'Invalid view name' }), { status: 400 });

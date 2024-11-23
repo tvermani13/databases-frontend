@@ -9,11 +9,18 @@ const db = mysql.createPool({
   database: serverRuntimeConfig.DB_NAME,
 });
 
+function formatQuery(query, values) {
+  return query.replace(/\?/g, () => mysql.escape(values.shift()));
+}
+
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const procedureName = searchParams.get('procedureName');
-    const databaseName = process.env.DB_NAME;
+    const databaseName = serverRuntimeConfig.DB_NAME;
+
+    console.log(procedureName);
+    console.log(databaseName);
 
     if (!procedureName) {
       return new Response(JSON.stringify({ error: 'Procedure name is required' }), { status: 400 });
@@ -26,8 +33,12 @@ export async function GET(req) {
     `;
 
     const [results] = await db.query(query, [procedureName, databaseName]);
+    // console.log(results);
+
+    console.log(formatQuery(query, [procedureName, databaseName]));
 
     if (results.length === 0) {
+      console.log("NO PARAMETERS FOUND");
       return new Response(JSON.stringify({ error: 'No parameters found for the specified procedure.' }), { status: 404 });
     }
 
