@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ResetDatabase from './components/ResetDatabase';
 
 export default function Home() {
     const options = [
@@ -18,6 +19,7 @@ export default function Home() {
                     </li>
                 ))}
             </ul>
+            <ResetDatabase />
         </div>
     );
 }

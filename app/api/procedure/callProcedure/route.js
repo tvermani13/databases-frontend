@@ -1,37 +1,37 @@
-import db from '../../../../path-to-db-config'; // Adjust the path to your database config
+import mysql from 'mysql2/promise';
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
+
+const db = mysql.createPool({
+  host: serverRuntimeConfig.DB_HOST,
+  user: serverRuntimeConfig.DB_USER,
+  password: serverRuntimeConfig.DB_PASSWORD,
+  database: serverRuntimeConfig.DB_NAME,
+});
 
 const allowedProcedures = [
-    'add_owner', 'add_employee', 'add_driver_role', 'add_worker_role', 'add_product', 'add_van', 'add_business',
-    'add_service', 'add_location', 'start_funding', 'hire_employee', 'fire_employee', 'manage_service', 'takeover_van',
-    'load_van', 'refuel_van', 'fuel_required', 'drive_van', 'purchase_product', 'remove_product', 'remove_van', 'remove_driver_role'
-]
-export async function POST(request) {
-    try {
-        const body = await request.json();
-        const { procedureName, params } = body;
+  'add_owner', 'add_employee', 'add_driver_role', 'add_worker_role', 'add_product', 'add_van', 'add_business',
+  'add_service', 'add_location', 'start_funding', 'hire_employee', 'fire_employee', 'manage_service', 'takeover_van',
+  'load_van', 'refuel_van', 'fuel_required', 'drive_van', 'purchase_product', 'remove_product', 'remove_van', 'remove_driver_role',
+];
 
-        if (!allowedProcedures.includes(procedureName)) {
-            return new Response(JSON.stringify({ error: 'Invalid procedure name' }), { status: 400 });
-        }
+export async function POST(req) {
+  try {
+    const body = await req.json();
+    const { procedureName, params } = body;
 
-        const paramValues = Object.keys(params).map((key) => params[key]);
-        const placeholders = paramValues.map(() => '?').join(', ');
-        const query = `CALL ${procedureName}(${placeholders})`;
-
-        return new Promise((resolve) => {
-            db.query(query, paramValues, (err, results) => {
-                if (err) {
-                    console.error(err);
-                    resolve(
-                        new Response(JSON.stringify({ error: err.message }), { status: 500 })
-                    );
-                } else {
-                    resolve(new Response(JSON.stringify(results), { status: 200 }));
-                }
-            });
-        });
-    } catch (err) {
-        console.error(err);
-        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+    if (!allowedProcedures.includes(procedureName)) {
+      return new Response(JSON.stringify({ error: 'Invalid procedure name' }), { status: 400 });
     }
+
+    const paramValues = Object.values(params);
+    const placeholders = paramValues.map(() => '?').join(', ');
+    const query = `CALL ${procedureName}(${placeholders})`;
+
+    const [results] = await db.query(query, paramValues);
+    return new Response(JSON.stringify(results), { status: 200 });
+  } catch (error) {
+    console.error('Error in callProcedure:', error);
+    return new Response(JSON.stringify({ error: 'Server error' }), { status: 500 });
+  }
 }

@@ -13,7 +13,7 @@ export default function ViewTable({ viewName }) {
             setError(null);
 
             try {
-                const response = await fetch(`http://localhost:5001/view/${viewName}`);
+                const response = await fetch(`../api/view/${viewName}`);
                 if (!response.ok) {
                     throw new Error(`Error ${response.status}: ${response.statusText}`);
                 }

@@ -18,6 +18,10 @@ export default function Home() {
                     </li>
                 ))}
             </ul>
+            <Link href="/"
+                className="mt-4 px-4 py-2 bg-white text-black border border-gray-300 rounded hover:bg-gray-100">
+                Back to main page
+            </Link>
         </div>
     );
 }
