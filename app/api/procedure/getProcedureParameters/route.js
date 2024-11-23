@@ -19,8 +19,8 @@ export async function GET(req) {
     const procedureName = searchParams.get('procedureName');
     const databaseName = serverRuntimeConfig.DB_NAME;
 
-    console.log(procedureName);
-    console.log(databaseName);
+    // console.log(procedureName);
+    // console.log(databaseName);
 
     if (!procedureName) {
       return new Response(JSON.stringify({ error: 'Procedure name is required' }), { status: 400 });
@@ -45,7 +45,7 @@ export async function GET(req) {
     const parameters = results.map((row) => ({
       name: row.PARAMETER_NAME,
       type: row.DATA_TYPE,
-      details: row.DTD_IDENTIFIER, // Useful for length/precision, if needed
+      details: row.DTD_IDENTIFIER,
     }));
 
     return new Response(JSON.stringify({ parameters }), { status: 200 });
