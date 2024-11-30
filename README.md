@@ -53,4 +53,7 @@ const nextConfig = {
 
 export default nextConfig;
 ```
-- ```bash npm run dev ```
+- Run the project
+  ```bash
+  npm run dev
+  ```
