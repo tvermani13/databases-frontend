@@ -35,8 +35,22 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-# Reasons why this project will remain incomplete:
+# Instructions for testing:
 
-To fully deploy this application, I would have to deploy my database to the cloud, as thus far we've been running a local MySQL instance.
+- Create "next.config.mjs" file in root directory
+- Paste:
+```bash
+  /** @type {import('next').NextConfig} */
+const nextConfig = {
+    serverRuntimeConfig: {
+        DB_HOST: 'localhost',
+        DB_USER: 'root',
+        DB_PASSWORD: '<password>',
+        DB_NAME: 'business_supply',
+        DB_PORT: '3306'    
+    }
+};
 
-This is way more than necessary for the requirements of Phase 4 of this project, therefore I am skipping it.
+export default nextConfig;
+```
+- ```bash npm run dev ```
