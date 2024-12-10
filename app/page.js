@@ -9,7 +9,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen text-center">
-            <h1 className="text-2xl font-bold mb-4">Database Options</h1>
+            <h1 className="text-2xl font-bold mb-4">Business Supply Database</h1>
             <ul className="list-disc">
                 {options.map((option) => (
                     <li key={option.name} className="mb-2">

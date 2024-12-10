@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import getConfig from 'next/config';
+import 'dotenv/config';
 const { serverRuntimeConfig } = getConfig();
 
 const db = mysql.createPool({
