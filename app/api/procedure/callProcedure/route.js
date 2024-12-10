@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import getConfig from 'next/config';
+import 'dotenv/config';
 const { serverRuntimeConfig } = getConfig();
 
 const db = mysql.createPool({
@@ -12,8 +13,10 @@ const db = mysql.createPool({
 const allowedProcedures = [
   'add_owner', 'add_employee', 'add_driver_role', 'add_worker_role', 'add_product', 'add_van', 'add_business',
   'add_service', 'add_location', 'start_funding', 'hire_employee', 'fire_employee', 'manage_service', 'takeover_van',
-  'load_van', 'refuel_van', 'fuel_required', 'drive_van', 'purchase_product', 'remove_product', 'remove_van', 'remove_driver_role',
+  'load_van', 'refuel_van', 'drive_van', 'purchase_product', 'remove_product', 'remove_van', 'remove_driver_role',
 ];
+
+// fuel_required is a pre-written function, not a procedure
 
 export async function POST(req) {
   try {
@@ -29,7 +32,9 @@ export async function POST(req) {
     const query = `CALL ${procedureName}(${placeholders})`;
 
     const [results] = await db.query(query, paramValues);
+
     return new Response(JSON.stringify(results), { status: 200 });
+
   } catch (error) {
     console.error('Error in callProcedure:', error);
     return new Response(JSON.stringify({ error: 'Server error' }), { status: 500 });
