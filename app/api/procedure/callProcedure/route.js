@@ -8,6 +8,8 @@ const db = mysql.createPool({
   user: serverRuntimeConfig.DB_USER,
   password: serverRuntimeConfig.DB_PASSWORD,
   database: serverRuntimeConfig.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 2
 });
 
 const allowedProcedures = [
